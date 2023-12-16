@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SoftArch_NimphiusFinalProject.Classes
+﻿namespace SoftArch_NimphiusFinalProject.Classes
 {
     public interface ICreate
     {
-        string CreateDrink(int drinkId);
+        void TakeOrder(string drinkFile);
+        string CreateDrink(int drinkId, string si, string hc, string m, string sy);
+        int FindMaxDrinkId(string drinkFile);
+        
     }
 }

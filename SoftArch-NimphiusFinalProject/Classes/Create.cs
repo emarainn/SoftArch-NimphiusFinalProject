@@ -1,38 +1,52 @@
-﻿
-using System.Drawing;
+﻿using SoftArch_NimphiusFinalProject.Dao;
 using SoftArch_NimphiusFinalProject.Models;
-
 namespace SoftArch_NimphiusFinalProject.Classes
 {
     public class Create
     {
-        public string CreateDrink(int drinkId) 
+        void TakeOrder(string drinkFile)
         {
-            return null;
+            int drinkId = FindMaxDrinkId(drinkFile);
+            
+            Size size = new Size();
+            string si = size.GetSize();
+
+            HotOrCold hotOrCold = new HotOrCold();
+            string hc = hotOrCold.GetHotOrCold();
+
+            Milk milk = new Milk();
+            string m = milk.GetMilk();
+
+            Syrup syrup = new Syrup();
+            string sy = syrup.GetSyrup();
+
+            IDrink drink = new Drink(drinkId, si, hc, m, sy);
+            StreamWriter sw = new StreamWriter(drinkFile, true);
+
+            sw.WriteLine($"{drinkId}|{si},{hc},{m},{sy}");
+            sw.Close();
+
+            CreateDrink(drinkId, si, hc, m, sy);
         }
-        /*
-        Size size = new Size();
-        string si = size.GetSize();
 
-        HotOrCold hotOrCold = new HotOrCold();
-        string hc = hotOrCold.GetHotOrCold();
+        public int FindMaxDrinkId(string drinkFile)
+        {
+            var maxId = 0;
+            var lines = File.ReadLines(drinkFile).Skip(1);
 
-        Milk milk = new Milk();
-        string m = milk.GetMilk();
+            foreach (string line in lines)
+            {
+                var id = line.Split("|")[0];
+                int newid = Convert.ToInt32(id);
+                if (newid > maxId) { maxId = newid; }
+                maxId++;
+            }
+            return maxId;
+        }
 
-        Syrup syrup = new Syrup();
-        string sy = syrup.GetSyrup();
-
-        Expresso expresso = new Expresso();
-        string e = expresso.GetExpresso();
-
-        IDrink drink = new Drinks(drinkId, si, hc, m, sy);
-        StreamWriter sw = new StreamWriter(drinkFile, true);
-
-        sw.WriteLine($"{drinkId}|{si},{hc},{m},{sy}");
-        sw.Close();
-
-        Console.WriteLine($"Order Number {drinkId}:A {si} {hc} coffee with {m}, {sy}");
-        */
+        public string CreateDrink(int drinkId, string si, string hc, string m, string sy)
+        {
+            return $"Order Number {drinkId}:A {si} {hc} coffee with {m} and {sy}";
+        }
     }
 }

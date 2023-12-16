@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SoftArch_NimphiusFinalProject.Dao
+namespace SoftArch_NimphiusFinalProject.Classes
 {
-    public interface IRepository
+    public interface IDisplay
     {
-        public bool CheckFile(string drinkFile);
-
+        void Read(string drinkFile);
     }
 }

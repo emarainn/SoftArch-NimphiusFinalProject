@@ -1,21 +1,29 @@
-﻿using Microsoft.Extensions.Logging;
-using Port_C_CoffeeShop.Classes;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using SoftArch_NimphiusFinalProject.Classes;
 using SoftArch_NimphiusFinalProject.Dao;
-using static CoffeeShop.Program;
 
 namespace SoftArch_NimphiusFinalProject.Services
 {
     public partial class MainService : IMainService
     {
         private readonly IRepository _repository;
+        private readonly ICreate _create;
         public string Line = "\n______________________________________________________________";
-        public string MenuTxt = $"Main MenuYou have the following options:\n\t1. Create your own drink\n\t2. Drink Randomizer" +
-                $"\n\t3. Display All Drinks\n\tX. Exit Application\nEnter your option here: ";
+        public string MenuTxt = $"Main MenuYou have the following options:\n\t1. Create your own drink\n\t2. Display All Drinks\n\tX. Exit Application\nEnter your option here: ";
 
-        public MainService(IRepository repository)
+        public MainService()
+        {
+            Invoke();
+        }
+
+        public MainService(IRepository repository, ICreate create)
         {
             _repository = repository;
+            _create = create;
         }
 
         public void Invoke()
@@ -23,29 +31,40 @@ namespace SoftArch_NimphiusFinalProject.Services
             Console.WriteLine($"Hello And Welcome To Ema's Coffee Shop!!{Line}");
             string drinkFile = $"{Environment.CurrentDirectory}/Files/drinks.csv";
 
-            _repository.CheckFile( drinkFile );
-
-            Console.WriteLine($"\nMain Menu{Line}");
-
-            string option = "";
-            do
+            //_repository.CheckFile(drinkFile);
+            if (File.Exists(drinkFile))
             {
-                Console.Write(MenuTxt);
-                option = Console.ReadLine().ToUpper();
-                if (option == "1")
-                {
-                    _repository.CreateDrink( drinkFile );
-                }
-                else if (option == "2")
-                {
+                Console.WriteLine($"\nMain Menu{Line}");
 
-                }
-                else if (option == "3")
+                string option = "";
+                do
                 {
-
-                }else if (option == "X") { Console.WriteLine("\nThank You For Visiting!!\nSee You Soon!"); }
-
-            } while (option != "X");
+                    Console.Write(MenuTxt);
+                    option = Console.ReadLine().ToUpper();
+                    if (option == "1")
+                    {
+                        _create.TakeOrder(drinkFile);
+                        
+                    }
+                    else if (option == "2")
+                    {
+                        Display display = new Display();
+                        Console.WriteLine("\n");
+                        display.Read(drinkFile);
+                    }
+                    else if (option == "X")
+                    {
+                        Console.WriteLine("\nThank You For Visiting!!\nSee You Soon!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("\n** Ivalid Input **");
+                    }
+                } while (option != "X");
+            }else
+            {
+                Console.WriteLine("No File Found");
+            }
         }
     }
 }

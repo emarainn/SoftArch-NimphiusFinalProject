@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Threading.Channels;
+using SoftArch_NimphiusFinalProject.Classes;
+using SoftArch_NimphiusFinalProject.Dao;
 
 namespace SoftArch_NimphiusFinalProject.Services
 {
@@ -18,7 +20,7 @@ namespace SoftArch_NimphiusFinalProject.Services
          */
         public static void Main(string[] args)
         {
-            MainService main = new MainService();
+            MainService main = new MainService(new Repository(), new Create());
             main.Invoke();
         }
     }

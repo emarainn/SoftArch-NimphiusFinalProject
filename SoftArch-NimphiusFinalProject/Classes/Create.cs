@@ -2,9 +2,9 @@
 using SoftArch_NimphiusFinalProject.Models;
 namespace SoftArch_NimphiusFinalProject.Classes
 {
-    public class Create
+    public class Create : ICreate
     {
-        void TakeOrder(string drinkFile)
+        public void TakeOrder(string drinkFile)
         {
             int drinkId = FindMaxDrinkId(drinkFile);
             
